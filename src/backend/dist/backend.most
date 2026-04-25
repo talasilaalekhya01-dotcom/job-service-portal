@@ -1,0 +1,108 @@
+// Version: 1.0.0
+type ApplicationStatus__761091200 = {#Accepted; #Pending; #Rejected; #Viewed};
+type Application__438321753 =
+  {
+    appliedAt : Timestamp__940885748;
+    id : Nat;
+    jobId : Nat;
+    seekerId : UserId__641963090;
+    status : ApplicationStatus__761091200
+  };
+type Category__396377023 =
+  {
+    #Design;
+    #Education;
+    #Engineering;
+    #Finance;
+    #Healthcare;
+    #IT;
+    #Marketing;
+    #Other;
+    #Sales
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Employer__498343167 =
+  {
+    companyDescription : Text;
+    companyName : Text;
+    createdAt : Timestamp__940885748;
+    email : Text;
+    id : UserId__641963090
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type JobSeeker__723668268 =
+  {
+    createdAt : Timestamp__940885748;
+    education : Text;
+    email : Text;
+    experienceLevel : Text;
+    id : UserId__641963090;
+    name : Text;
+    skills : Text
+  };
+type JobType__214272645 = {#FullTime; #PartTime; #Remote};
+type Job__592912374 =
+  {
+    category : Category__396377023;
+    companyName : Text;
+    description : Text;
+    employerId : UserId__641963090;
+    id : Nat;
+    isActive : Bool;
+    jobType : JobType__214272645;
+    location : Text;
+    postedAt : Timestamp__940885748;
+    requirements : Text;
+    salaryMax : Nat;
+    salaryMin : Nat;
+    title : Text
+  };
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Timestamp__301639476 = Int;
+type Timestamp__940885748 = Timestamp__301639476;
+type UserId__158757552 = Principal;
+type UserId__641963090 = UserId__158757552;
+actor {
+  stable applications :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Application__438321753]];
+      var elementIndex : Nat__490723111
+    };
+  stable employerByPrincipal :
+    {
+      var root : Node__46230540<UserId__641963090, Nat>;
+      var size : Nat__490723111
+    };
+  stable employers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Employer__498343167]];
+      var elementIndex : Nat__490723111
+    };
+  stable jobs :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Job__592912374]];
+      var elementIndex : Nat__490723111
+    };
+  stable var nextAppId : Nat;
+  stable var nextJobId : Nat;
+  stable seekerByPrincipal :
+    {
+      var root : Node__46230540<UserId__641963090, Nat>;
+      var size : Nat__490723111
+    };
+  stable seekers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?JobSeeker__723668268]];
+      var elementIndex : Nat__490723111
+    }
+};

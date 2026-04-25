@@ -1,0 +1,28 @@
+{
+  "overview": "A full-featured online job service portal where job seekers can search, filter, and apply for jobs, and employers can post openings, manage listings, and review applicants — all backed by a Motoko canister on the Internet Computer.",
+  "features": [
+    "Job search by title, keyword, and location",
+    "Filtered job listings (category, location, job type, salary range)",
+    "Job detail pages with full description and Apply button",
+    "Dual-role authentication: Job Seeker and Employer",
+    "Employer job posting form and management dashboard",
+    "Job seeker profile with skills, experience, and education",
+    "Application tracking for job seekers",
+    "Employer applicant review with Accept/Reject actions",
+    "Featured and recent jobs on the home page",
+    "Category section (IT, Healthcare, Finance, Education, Engineering, etc.)"
+  ],
+  "category": "productivity",
+  "tags": [
+    "jobs",
+    "job-portal",
+    "recruitment",
+    "hiring",
+    "careers",
+    "employment",
+    "motoko",
+    "react",
+    "tailwind"
+  ],
+  "last_updated": "2026-04-25T07:59:00.548Z"
+}

@@ -1,0 +1,148 @@
+type UserRole = 
+ variant {
+   Employer;
+   JobSeeker;
+ };
+type UserId = principal;
+type Timestamp = int;
+type LoginResult = 
+ variant {
+   err: text;
+   ok: UserRole;
+ };
+type JobType = 
+ variant {
+   FullTime;
+   PartTime;
+   Remote;
+ };
+type JobSeeker = 
+ record {
+   createdAt: Timestamp;
+   education: text;
+   email: text;
+   experienceLevel: text;
+   id: UserId;
+   name: text;
+   skills: text;
+ };
+type Job = 
+ record {
+   category: Category;
+   companyName: text;
+   description: text;
+   employerId: UserId;
+   id: nat;
+   isActive: bool;
+   jobType: JobType;
+   location: text;
+   postedAt: Timestamp;
+   requirements: text;
+   salaryMax: nat;
+   salaryMin: nat;
+   title: text;
+ };
+type Employer = 
+ record {
+   companyDescription: text;
+   companyName: text;
+   createdAt: Timestamp;
+   email: text;
+   id: UserId;
+ };
+type Category = 
+ variant {
+   Design;
+   Education;
+   Engineering;
+   Finance;
+   Healthcare;
+   IT;
+   Marketing;
+   Other;
+   Sales;
+ };
+type ApplicationWithJob = 
+ record {
+   application: Application;
+   job: Job;
+ };
+type ApplicationStatus = 
+ variant {
+   Accepted;
+   Pending;
+   Rejected;
+   Viewed;
+ };
+type Application = 
+ record {
+   appliedAt: Timestamp;
+   id: nat;
+   jobId: nat;
+   seekerId: UserId;
+   status: ApplicationStatus;
+ };
+type ApplicantDetail = 
+ record {
+   application: Application;
+   seeker: JobSeeker;
+ };
+service : {
+  applyForJob: (jobId: nat) -> (variant {
+                                  err: text;
+                                  ok: Application;
+                                });
+  deleteJob: (id: nat) -> (variant {
+                             err: text;
+                             ok;
+                           });
+  getEmployerJobs: () -> (vec Job) query;
+  getEmployerProfile: () -> (opt Employer) query;
+  getFeaturedJobs: () -> (vec Job) query;
+  getJob: (id: nat) -> (opt Job) query;
+  getJobApplicants: (jobId: nat) ->
+   (variant {
+      err: text;
+      ok: vec ApplicantDetail;
+    }) query;
+  getJobCategories: () -> (vec Category) query;
+  getMyRole: () -> (LoginResult) query;
+  getRecentJobs: () -> (vec Job) query;
+  getSeekerApplications: () -> (vec ApplicationWithJob) query;
+  getSeekerProfile: () -> (opt JobSeeker) query;
+  postJob: (title: text, description: text, requirements: text, jobType:
+   JobType, category: Category, location: text, salaryMin: nat, salaryMax:
+   nat) -> (variant {
+              err: text;
+              ok: Job;
+            });
+  registerEmployer: (email: text, companyName: text, companyDescription:
+   text) -> (variant {
+               err: text;
+               ok: Employer;
+             });
+  registerJobSeeker: (email: text, name: text, skills: text, experienceLevel:
+   text, education: text) -> (variant {
+                                err: text;
+                                ok: JobSeeker;
+                              });
+  searchJobs: (keyword: text, location: text, category: opt Category,
+   jobType: opt JobType, salaryMin: opt nat, salaryMax: opt nat) ->
+   (vec Job) query;
+  updateApplicationStatus: (appId: nat, status: ApplicationStatus) ->
+   (variant {
+      err: text;
+      ok: Application;
+    });
+  updateJob: (id: nat, title: text, description: text, requirements: 
+   text, jobType: JobType, category: Category, location: text, salaryMin:
+   nat, salaryMax: nat) -> (variant {
+                              err: text;
+                              ok: Job;
+                            });
+  updateSeekerProfile: (name: text, skills: text, experienceLevel: text,
+   education: text) -> (variant {
+                          err: text;
+                          ok: JobSeeker;
+                        });
+}
